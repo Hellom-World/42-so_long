@@ -15,6 +15,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <stddef.h>
+#include "so_long.h"
 
 int ft_strrncmp(const char *s1, const char *s2, size_t n) {
     size_t len1 = 0;
@@ -56,7 +57,6 @@ int     checker_general_params(int argc, char **argv)
         }
 
         fd = open(argv[1], O_RDONLY);
-	printf("%d", fd);
         if (fd == -1)
         {
                 write(1, "Error_fd", 8);
@@ -70,13 +70,50 @@ int     checker_general_params(int argc, char **argv)
         return (fd);
 }
 
+char **ft_read_map(int fd, char **map)
+{
+    char    *line;
+    char    *tmp;
+    char    *string_total;
+
+    string_total = ft_strdup("");
+
+    while(1)
+    {
+        ft_printf("%d", fd);
+        line = get_next_line(fd);
+        if (line == NULL)
+            break;
+        tmp = string_total;
+        string_total = ft_strjoin(tmp, line);
+        free(line);
+        free(tmp);
+        if (string_total == NULL)
+        {
+            free(map);
+            return NULL;
+        }
+    }
+    map = ft_split(string_total, '\n');
+    free(string_total);
+     if (map == NULL)
+        return NULL;
+    return (map);
+}
+
 
 int	main(int argc, char **argv)
 {
 	int fd;
+    char **map;
 
+    map = NULL;
 	fd = checker_general_params(argc, argv);
 
-	printf("%d", fd);
+    map = ft_read_map(fd, map);
+
+    ft_printf("%s", map);
+
+	ft_printf("-%d-", fd);
 	return (0);
 }
