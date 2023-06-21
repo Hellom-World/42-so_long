@@ -13,7 +13,7 @@
 
 #include "libft.h"
 
-/*:wsize_t	ft_strlen(char *s)
+size_t	ft_strlen_gnl(char *s)
 {
 	size_t	i;
 
@@ -23,9 +23,9 @@
 	while (s[i] != '\0')
 		i++;
 	return (i);
-}*/
-/*
-char	*ft_strjoin(char *s1, char *s2)
+}
+
+char	*ft_strjoin_gnl(char *s1, char *s2)
 {
 	char	*str;
 	size_t	i;
@@ -51,7 +51,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	free(s1);
 	return (str);
 }
-char	*ft_strchr(char *s, int c)
+char	*ft_strchr_gnl(char *s, int c)
 {
 	size_t	i;
 
@@ -67,4 +67,4 @@ char	*ft_strchr(char *s, int c)
 		i++;
 	}
 	return (NULL);
-}*/
+}

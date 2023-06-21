@@ -22,7 +22,7 @@ char	*ft_brute_line(int fd, char *brute_line)
 	if (!vleitura)
 		return (0);
 	nbl = 1;
-	while (!ft_strchr(brute_line, '\n') && nbl != 0)
+	while (!ft_strchr_gnl(brute_line, '\n') && nbl != 0)
 	{
 		nbl = read(fd, vleitura, BUFFER_SIZE);
 		if (nbl == -1)
@@ -32,7 +32,7 @@ char	*ft_brute_line(int fd, char *brute_line)
 			return (0);
 		}
 		vleitura[nbl] = '\0';
-		brute_line = ft_strjoin(brute_line, vleitura);
+		brute_line = ft_strjoin_gnl(brute_line, vleitura);
 	}
 	free(vleitura);
 	return (brute_line);
@@ -81,7 +81,7 @@ char	*ft_rest_line(char *brute_line)
 		free(brute_line);
 		return (0);
 	}
-	str = (char *)malloc(sizeof(char) * (ft_strlen(brute_line) - i + 1));
+	str = (char *)malloc(sizeof(char) * (ft_strlen_gnl(brute_line) - i + 1));
 	if (!str)
 		return (NULL);
 	i++;
@@ -107,7 +107,7 @@ char	*get_next_line(int fd)
 	brute_line = ft_rest_line(brute_line);
 	return (liquid_line);
 }
-int     main(void)
+/*int     main(void)
 {       char    *str;
 
         int fd = open("test.txt", O_RDONLY);
@@ -124,4 +124,4 @@ int     main(void)
         printf("%s", str);
         free(str);
         return 0;
-}
+}*/

@@ -95,9 +95,9 @@ char	*get_next_line(int fd);
 char	*ft_brute_line(int fd, char *brute_line);
 char	*ft_liquid_line(char *brute_line);
 char	*ft_rest_line(char *brute_line);
-//size_t	ft_strlen(char *s);
-//char	*ft_strjoin(char *s1, char *s2);
-//char	*ft_strchr(char *s, int c);
+size_t	ft_strlen_gnl(char *s);
+char	*ft_strjoin_gnl(char *s1, char *s2);
+char	*ft_strchr_gnl(char *s, int c);
 
 /*Functions to printf*/
 
