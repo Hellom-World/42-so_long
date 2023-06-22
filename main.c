@@ -21,7 +21,7 @@ int	ft_strrncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	len1;
 	size_t	len2;
-	const char	*end
+	const char	*end;
 
 	len1 = 0;
 	len2 = 0;
@@ -31,7 +31,7 @@ int	ft_strrncmp(const char *s1, const char *s2, size_t n)
 		len2++;
 	const char* end1 = s1 + len1 - 1;
 	const char* end2 = s2 + len2 - 1;
-	while (n > 0 && end1 >= s1 && end2 >= s2) 
+	while (n > 0 && end1 >= s1 && end2 >= s2)
 	{
 		if (*end1 != *end2)
 			break;
@@ -97,19 +97,55 @@ char **ft_read_map(int fd, char **map)
     return (map);
 }
 
+int ft_error_filter(char *msg, char **matrix)
+{
+    if (matrix)
+        free(matrix);
+    ft_printf("Error\n%s\n", msg);
+    exit(0);
+    return (0);
+}
+
+int ft_check_map(char **map_matrix)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while(map_matrix[i])
+    {
+        j = 0;
+        ft_printf("%d\n", ft_strlen(map_matrix));
+        while ((i == 0 || i == (ft_strlen(*map_matrix) - 1)) && map_matrix[i][j])
+        {
+            ft_printf("%c", map_matrix[i][j]);
+            if (map_matrix[i][j] != '1')
+            {
+                ft_printf("\n");
+                ft_error_filter("Paredes invalidas", map_matrix);
+            }
+            j++;
+        }
+        if(map_matrix[i][j] == '\0')
+        {
+            ft_printf("\n");
+            break;
+        }
+        ft_printf("\n");
+        i++;
+    }
+    return (0);
+}
 
 int	main(int argc, char **argv)
 {
 	int fd;
-    char **map;
+    char **map_matrix;
 
-    map = NULL;
+    map_matrix = NULL;
 	fd = checker_general_params(argc, argv);
-
-    map = ft_read_map(fd, map);
-
-    ft_printf("%s", map[1]);
-
-	ft_printf("\nfd: %d", fd);
+    map_matrix = ft_read_map(fd, map_matrix);
+    ft_check_map(map_matrix);
+    ft_error_filter("erro de sei la", map_matrix);
 	return (0);
 }
