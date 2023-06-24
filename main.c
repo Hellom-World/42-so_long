@@ -66,35 +66,30 @@ int     checker_general_params(int argc, char **argv)
         }
         return (fd);
 }
-
-char **ft_read_map(int fd, char **map)
+t_lay   ft_new_struct_layout(void)
 {
-    char    *line;
-    char    *tmp;
-    char    *string_total;
+    t_lay   layout;
 
-    string_total = ft_strdup("");
+    layout.n_row = 0;
+    layout.n_col = 0;
+    layout.n_exit = 0;
+	layout.n_person = 0;
+	layout.n_collect = 0;
 
-    while(1)
-    {
-        line = get_next_line(fd);
-        if (line == NULL)
-            break;
-        tmp = string_total;
-        string_total = ft_strjoin(tmp, line);
-        free(line);
-        free(tmp);
-        if (string_total == NULL)
-        {
-            free(map);
-            return NULL;
-        }
-    }
-    map = ft_split(string_total, '\n');
-    free(string_total);
-     if (map == NULL)
-        return NULL;
-    return (map);
+    return (layout);
+}
+
+t_err   ft_new_struct_map_error(void)
+{
+    t_err   error;
+
+    error.inv_rowlen = 0;
+	error.inv_borders = 0;
+	error.inv_char = 0;
+	error.inv_n_persons = 0;
+	error.inv_n_collect = 0;
+	error.inv_n_exits = 0;
+    return (error);
 }
 
 int ft_error_filter(char *msg, char **matrix)
@@ -106,46 +101,57 @@ int ft_error_filter(char *msg, char **matrix)
     return (0);
 }
 
-int ft_check_map(char **map_matrix)
+void    ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
 {
-    int i;
-    int j;
+    char    *line;
+    char    *last_line;
 
-    i = 0;
-    while(map_matrix[i])
+    line = NULL;
+    last_line = NULL;
+    *map_str = ft_substr("", 0, 1);
+    while (1)
     {
-        j = 0;
-        ft_printf("%d\n", ft_strlen(map_matrix));
-        while ((i == 0 || i == (ft_strlen(*map_matrix) - 1)) && map_matrix[i][j])
+        line = get_next_line(fd);
+        if(!line)
         {
-            ft_printf("%c", map_matrix[i][j]);
-            if (map_matrix[i][j] != '1')
-            {
-                ft_printf("\n");
-                ft_error_filter("Paredes invalidas", map_matrix);
-            }
-            j++;
-        }
-        if(map_matrix[i][j] == '\0')
-        {
-            ft_printf("\n");
+            /*if(!lay->n_col)
+                ft_error_filter("Map is empty", NULL);*/
+            ft_printf("%s", last_line);
+            free(last_line);
             break;
         }
-        ft_printf("\n");
-        i++;
+        free(last_line);
+        //ft_checklayout(line, map_err, lay, !lay->n_row);
+        last_line = ft_substr(line, 0, ft_strlen(line));
+        *map_str = ft_strjoin(*map_str, line);
+        lay->n_row++;
+        ft_printf("%s", line);
     }
-    return (0);
+}
+char    **ft_check_map(int fd, t_lay *layout)
+{
+    char    *map_str;
+    char    **map_matrix;
+    t_err   map_err;
+
+    map_str = NULL;
+    map_matrix = NULL;
+    map_err = ft_new_struct_map_error();
+    *layout = ft_new_struct_layout();
+    ft_readlayout(fd, &map_err, layout, &map_str);
+    return (map_matrix);
 }
 
 int	main(int argc, char **argv)
 {
 	int fd;
+    t_lay   layout;
+    t_err   map_error;
     char **map_matrix;
 
     map_matrix = NULL;
 	fd = checker_general_params(argc, argv);
-    map_matrix = ft_read_map(fd, map_matrix);
-    ft_check_map(map_matrix);
-    ft_error_filter("erro de sei la", map_matrix);
+
+    map_matrix = ft_check_map(fd, &layout);
 	return (0);
 }

@@ -15,5 +15,26 @@
 
 # include "./libft/libft.h"
 
+/* Struct to store and handle layout properties */
+typedef struct s_lay
+{
+	int	n_row;
+	int	n_col;
+	int	n_exit;
+	int	n_person;
+	int	n_collect;
+}				t_lay;
+
+/* Struct to handle all possible layout errors */
+typedef struct s_err
+{
+	int	inv_rowlen;
+	int	inv_borders;
+	int	inv_char;
+	int	inv_n_persons;
+	int	inv_n_collect;
+	int	inv_n_exits;
+}				t_err;
+
 /*cc main.c libft/libft.a */
 #endif
