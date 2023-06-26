@@ -44,24 +44,45 @@ int	ft_strrncmp(const char *s1, const char *s2, size_t n)
 	return (unsigned char)(*end1) - (unsigned char)(*end2);
 }
 
+int ft_countchar(char *str, char c) {
+    int count = 0;
+
+    while (*str != '\0') {
+        if (*str == c) {
+            count++;
+        }
+        str++;
+    }
+
+    return count;
+}
+
+int ft_error_filter(char *msg, char **matrix)
+{
+    if (matrix)
+        free(matrix);
+    ft_printf("Error\n%s\n", msg);
+    exit(0);
+    return (0);
+}
 int     checker_general_params(int argc, char **argv)
 {
         int fd;
 
         if (argc != 2)
         {
-                write(1, "Error_args", 10);
+                ft_error_filter("Only 2 Arguments -> ./so_long map.ber", NULL);
                 return (0);
         }
         fd = open(argv[1], O_RDONLY);
         if (fd == -1)
         {
-                write(1, "Error_fd", 8);
+                ft_error_filter("Error opening the file .ber", NULL);
                 return (0);
         }
         if (ft_strrncmp(argv[1], ".ber", 4) != 0)
         {
-                write(1, "Error_fx", 8);
+                ft_error_filter("The map file needs to be .ber", NULL);
                 return (0);
         }
         return (fd);
@@ -92,19 +113,11 @@ t_err   ft_new_struct_map_error(void)
     return (error);
 }
 
-int ft_error_filter(char *msg, char **matrix)
-{
-    if (matrix)
-        free(matrix);
-    ft_printf("Error\n%s\n", msg);
-    exit(0);
-    return (0);
-}
-
 void    ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
 {
     char    *line;
     char    *last_line;
+    int     is_last = 0;
 
     line = NULL;
     last_line = NULL;
@@ -116,7 +129,6 @@ void    ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
         {
             /*if(!lay->n_col)
                 ft_error_filter("Map is empty", NULL);*/
-            ft_printf("%s", last_line);
             free(last_line);
             break;
         }
@@ -124,8 +136,15 @@ void    ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
         //ft_checklayout(line, map_err, lay, !lay->n_row);
         last_line = ft_substr(line, 0, ft_strlen(line));
         *map_str = ft_strjoin(*map_str, line);
+        lay->n_col = ft_strlen(line) - 1;
+
+        if (ft_countchar(line, '1') != lay->n_col && is_last)
+        {
+            is_last =  1;
+        }
+
+        ft_printf("%i\n", is_last);
         lay->n_row++;
-        ft_printf("%s", line);
     }
 }
 char    **ft_check_map(int fd, t_lay *layout)
