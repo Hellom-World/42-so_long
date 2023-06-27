@@ -6,7 +6,7 @@
 /*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:13:11 by heolivei          #+#    #+#             */
-/*   Updated: 2023/06/27 20:54:59 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/06/28 00:23:56 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,15 +113,35 @@ t_err   ft_new_struct_map_error(void)
     return (error);
 }
 
+void    ft_checklayout(char *line, t_err *map_err, t_lay *lay, int is_one_or_last)
+{
+    if (lay->n_col == 0)
+        lay->n_col = (ft_strlen(line) - 1);
+    if (lay->n_col && (lay->n_col != (int)ft_strlen(line) && ft_strchr(line, '\n')) || (lay->n_col != (int)(ft_strlen(line) - 1) && !ft_strchr(line, '\n')))
+        map_err->inv_rowlen = 1;
+    if (line[0] != 1 || line[(ft_strlen(line) - 1)] != 1 || (ft_countchar(line, 1) != lay->n_col && is_one_or_last))
+        map_err->inv_borders = 1;
+    lay->n_exit += ft_countchar(line, 'E');
+    lay->n_person += ft_countchar(line, 'P');
+    lay->n_collect += ft_countchar(line, 'C');
+    map_err->inv_n_exits = lay->n_exit < 1;
+    map_err->inv_n_persons = lay->n_person < 1;
+    map_err->inv_n_collect = lay->n_collect < 1;
+    while (line && *line)
+    {
+        if (!ft_strchr("01CEP\n", *line))
+            map_err->inv_char = 1;
+        line++;
+    }
+}
 void    ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
 {
     char    *line;
     char    *last_line;
-    int     is_last = 1;
 
     line = NULL;
     last_line = NULL;
-    *map_str = ft_substr("", 0, 1);
+    *map_str = ft_substr("", 0, 0);
     while (1)
     {
         line = get_next_line(fd);
@@ -129,15 +149,17 @@ void    ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
         {
             if(!lay->n_col)
                 ft_error_filter("Map is empty", NULL);
-            //else
+            else
+                ft_checklayout(line, map_err, lay, 1);
             free(last_line);
             break;
         }
         free(last_line);
-        //ft_checklayout(line, map_err, lay, !lay->n_row);
+        ft_checklayout(line, map_err, lay, !lay->n_row);
         last_line = ft_substr(line, 0, ft_strlen(line));
         *map_str = ft_strjoin(*map_str, line);
         lay->n_row++;
+        ft_printf("%s\n", *map_str);
     }
 }
 char    **ft_check_map(int fd, t_lay *layout)
@@ -151,6 +173,9 @@ char    **ft_check_map(int fd, t_lay *layout)
     map_err = ft_new_struct_map_error();
     *layout = ft_new_struct_layout();
     ft_readlayout(fd, &map_err, layout, &map_str);
+    ft_printf("%s", map_str[0]);
+    map_matrix = ft_split(map_str, '\n');
+    free(map_str);
     return (map_matrix);
 }
 
