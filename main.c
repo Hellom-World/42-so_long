@@ -117,7 +117,7 @@ void    ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
 {
     char    *line;
     char    *last_line;
-    int     is_last = 0;
+    int     is_last = 1;
 
     line = NULL;
     last_line = NULL;
@@ -140,7 +140,7 @@ void    ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
 
         if (ft_countchar(line, '1') != lay->n_col && is_last)
         {
-            is_last =  1;
+            is_last =  0;
         }
 
         ft_printf("%i\n", is_last);
