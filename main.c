@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heolivei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:13:11 by heolivei          #+#    #+#             */
-/*   Updated: 2023/06/21 18:45:51 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/06/27 20:54:59 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,9 @@ void    ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
         line = get_next_line(fd);
         if(!line)
         {
-            /*if(!lay->n_col)
-                ft_error_filter("Map is empty", NULL);*/
+            if(!lay->n_col)
+                ft_error_filter("Map is empty", NULL);
+            //else
             free(last_line);
             break;
         }
@@ -136,14 +137,6 @@ void    ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
         //ft_checklayout(line, map_err, lay, !lay->n_row);
         last_line = ft_substr(line, 0, ft_strlen(line));
         *map_str = ft_strjoin(*map_str, line);
-        lay->n_col = ft_strlen(line) - 1;
-
-        if (ft_countchar(line, '1') != lay->n_col && is_last)
-        {
-            is_last =  0;
-        }
-
-        ft_printf("%i\n", is_last);
         lay->n_row++;
     }
 }
