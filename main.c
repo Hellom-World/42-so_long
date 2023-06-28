@@ -6,7 +6,7 @@
 /*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:13:11 by heolivei          #+#    #+#             */
-/*   Updated: 2023/06/28 00:23:56 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/06/28 21:07:18 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,8 @@ void    ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
         free(last_line);
         ft_checklayout(line, map_err, lay, !lay->n_row);
         last_line = ft_substr(line, 0, ft_strlen(line));
-        *map_str = ft_strjoin(*map_str, last_line);
+        *map_str = ft_strjoin_gnl(*map_str, line);
+        free(line);
         lay->n_row++;
         ft_printf("%s\n", *map_str);
     }
