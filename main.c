@@ -21,7 +21,6 @@ int	ft_strrncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	len1;
 	size_t	len2;
-	const char	*end;
 
 	len1 = 0;
 	len2 = 0;
@@ -60,7 +59,7 @@ int ft_countchar(char *str, char c) {
 int ft_error_filter(char *msg, char **matrix)
 {
     if (matrix)
-        free(matrix);
+        free(*matrix);
     ft_printf("Error\n%s\n", msg);
     exit(0);
     return (0);
@@ -117,7 +116,7 @@ void    ft_checklayout(char *line, t_err *map_err, t_lay *lay, int is_one_or_las
 {
     if (lay->n_col == 0)
         lay->n_col = (ft_strlen(line) - 1);
-    if (lay->n_col && (lay->n_col != (int)ft_strlen(line) && ft_strchr(line, '\n')) || (lay->n_col != (int)(ft_strlen(line) - 1) && !ft_strchr(line, '\n')))
+    if (lay->n_col && ((lay->n_col != (int)ft_strlen(line) && ft_strchr(line, '\n')) || (lay->n_col != (int)(ft_strlen(line) - 1) && !ft_strchr(line, '\n'))))
         map_err->inv_rowlen = 1;
     if (line[0] != 1 || line[(ft_strlen(line) - 1)] != 1 || (ft_countchar(line, 1) != lay->n_col && is_one_or_last))
         map_err->inv_borders = 1;
@@ -150,17 +149,34 @@ void    ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
             if(!lay->n_col)
                 ft_error_filter("Map is empty", NULL);
             else
-                ft_checklayout(line, map_err, lay, 1);
+                ft_checklayout(last_line, map_err, lay, 1);
             free(last_line);
             break;
         }
         free(last_line);
         ft_checklayout(line, map_err, lay, !lay->n_row);
         last_line = ft_substr(line, 0, ft_strlen(line));
-        *map_str = ft_strjoin(*map_str, line);
+        *map_str = ft_strjoin(*map_str, last_line);
         lay->n_row++;
         ft_printf("%s\n", *map_str);
     }
+}
+
+int    ft_check_error(t_err *map_err, char **map_str)
+{
+    if (map_err->inv_rowlen)
+        ft_error_filter("The map is not rectangular!", map_str);
+    if (map_err->inv_borders)
+        ft_error_filter("Invalid map periphery/borders!", map_str);
+    if (map_err->inv_char)
+        ft_error_filter("Invalid caracter in map!", map_str);
+    if (map_err->inv_n_exits)
+        ft_error_filter("Invalid numbers of exits!", map_str);
+    if (map_err->inv_n_persons)
+        ft_error_filter("Invalid numbers of players!", map_str);
+    if (map_err->inv_n_collect)
+        ft_error_filter("Invalid numbers of collectibles!", map_str);
+    return (0);
 }
 char    **ft_check_map(int fd, t_lay *layout)
 {
@@ -173,7 +189,8 @@ char    **ft_check_map(int fd, t_lay *layout)
     map_err = ft_new_struct_map_error();
     *layout = ft_new_struct_layout();
     ft_readlayout(fd, &map_err, layout, &map_str);
-    ft_printf("%s", map_str[0]);
+    ft_printf("%s", map_str);
+    ft_check_error(&map_err, &map_str);
     map_matrix = ft_split(map_str, '\n');
     free(map_str);
     return (map_matrix);
@@ -183,7 +200,6 @@ int	main(int argc, char **argv)
 {
 	int fd;
     t_lay   layout;
-    t_err   map_error;
     char **map_matrix;
 
     map_matrix = NULL;
