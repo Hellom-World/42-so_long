@@ -6,7 +6,7 @@
 /*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:13:11 by heolivei          #+#    #+#             */
-/*   Updated: 2023/06/28 21:07:18 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/06/28 23:21:55 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,11 @@ t_err   ft_new_struct_map_error(void)
 
 void    ft_checklayout(char *line, t_err *map_err, t_lay *lay, int is_one_or_last)
 {
-    if (lay->n_col == 0)
+    if (!lay->n_col)
         lay->n_col = (ft_strlen(line) - 1);
-    if (lay->n_col && ((lay->n_col != (int)ft_strlen(line) && ft_strchr(line, '\n')) || (lay->n_col != (int)(ft_strlen(line) - 1) && !ft_strchr(line, '\n'))))
+    if (lay->n_col && ((lay->n_col != (int)ft_strlen(line) && !ft_strchr(line, '\n')) || (lay->n_col != (int)ft_strlen(line) - 1 && ft_strchr(line, '\n'))))
         map_err->inv_rowlen = 1;
-    if (line[0] != 1 || line[(ft_strlen(line) - 1)] != 1 || (ft_countchar(line, 1) != lay->n_col && is_one_or_last))
+    if (line[0] != '1' || line[lay->n_col - 1] != '1' || (ft_countchar(line, '1') != lay->n_col && is_one_or_last))
         map_err->inv_borders = 1;
     lay->n_exit += ft_countchar(line, 'E');
     lay->n_person += ft_countchar(line, 'P');
@@ -170,7 +170,7 @@ int    ft_check_error(t_err *map_err, char **map_str)
     if (map_err->inv_borders)
         ft_error_filter("Invalid map periphery/borders!", map_str);
     if (map_err->inv_char)
-        ft_error_filter("Invalid caracter in map!", map_str);
+        ft_error_filter("Invalid character in map!", map_str);
     if (map_err->inv_n_exits)
         ft_error_filter("Invalid numbers of exits!", map_str);
     if (map_err->inv_n_persons)

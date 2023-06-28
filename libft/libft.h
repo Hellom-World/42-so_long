@@ -6,7 +6,7 @@
 /*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 14:43:48 by heolivei          #+#    #+#             */
-/*   Updated: 2023/06/15 17:44:52 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/06/28 23:24:41 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/types.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10000
+#  define BUFFER_SIZE 10
 # endif
 
 # define MIN_INT -2147483648
