@@ -115,11 +115,14 @@ t_err   ft_new_struct_map_error(void)
 void    ft_checklayout(char *line, t_err *map_err, t_lay *lay, int is_one_or_last)
 {
     if (!lay->n_col)
-        lay->n_col = (ft_strlen(line) - 1);
-    if (lay->n_col && ((lay->n_col != (int)ft_strlen(line) && !ft_strchr(line, '\n')) || (lay->n_col != (int)ft_strlen(line) - 1 && ft_strchr(line, '\n'))))
+        lay->n_col = (ft_strlen_gnl(line) - 1);
+    if (lay->n_col && ((lay->n_col != (int)ft_strlen_gnl(line) && !ft_strchr_gnl(line, '\n')) || (lay->n_col != (int)ft_strlen_gnl(line) - 1 && ft_strchr_gnl(line, '\n'))))
         map_err->inv_rowlen = 1;
-    if (line[0] != '1' || line[lay->n_col - 1] != '1' || (ft_countchar(line, '1') != lay->n_col && is_one_or_last))
-        map_err->inv_borders = 1;
+    if (map_err->inv_rowlen == 0)
+    {
+        if ((line[0] != '1' || (line[lay->n_col - 1] != '1') || (ft_countchar(line, '1') != lay->n_col && is_one_or_last)))
+            map_err->inv_borders = 1;
+    }
     lay->n_exit += ft_countchar(line, 'E');
     lay->n_person += ft_countchar(line, 'P');
     lay->n_collect += ft_countchar(line, 'C');
@@ -128,7 +131,7 @@ void    ft_checklayout(char *line, t_err *map_err, t_lay *lay, int is_one_or_las
     map_err->inv_n_collect = lay->n_collect < 1;
     while (line && *line)
     {
-        if (!ft_strchr("01CEP\n", *line))
+        if (!ft_strchr_gnl("01CEP\n", *line))
             map_err->inv_char = 1;
         line++;
     }
