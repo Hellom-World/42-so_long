@@ -13,6 +13,11 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+# include <stdio.h>
+# include <unistd.h>
+# include <string.h>
+# include <fcntl.h>
+# include <stddef.h>
 # include "./libft/libft.h"
 
 /* Struct to store and handle layout properties */
@@ -36,5 +41,5 @@ typedef struct s_err
 	int	inv_n_exits;
 }				t_err;
 
-/*cc main.c libft/libft.a */
+/*cc main.c utils.c all_of_check.c all_of_errors.c libft/libft.a */
 #endif
