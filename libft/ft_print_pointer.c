@@ -13,7 +13,7 @@
 #include "libft.h"
 
 int	ft_print_pointer(size_t ptr)
-{	
+{
 	int	len;
 
 	if (ptr == 0)

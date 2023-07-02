@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft/libft.h"
+#include "so_long.h"
 
 int	ft_error_filter(char *msg, char **matrix)
 {

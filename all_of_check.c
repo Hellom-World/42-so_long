@@ -6,19 +6,19 @@
 /*   By: heolivei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 19:46:24 by heolivei          #+#    #+#             */
-/*   Updated: 2023/06/30 20:29:15 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/07/02 15:41:30 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft/libft.h"
+#include "so_long.h"
 
 void	ft_checklayout(char *line, t_err *map_err, t_lay *lay, int is_last)
 {
 	if (!lay->n_col)
 		lay->n_col = (ft_strlen_gnl(line) - 1);
 	if (lay->n_col && ((lay->n_col != (int)ft_strlen_gnl(line)
-				&& !ft_strchr_gnl(line, '\n')) || 
-			(lay->n_col != (int)ft_strlen_gnl(line) - 1
+				&& !ft_strchr_gnl(line, '\n'))
+			|| (lay->n_col != (int)ft_strlen_gnl(line) - 1
 				&& ft_strchr_gnl(line, '\n'))))
 		map_err->inv_rowlen = 1;
 	if (map_err->inv_rowlen == 0)
@@ -70,12 +70,12 @@ char	**ft_check_map(int fd, t_lay *layout)
 	char	**map_matrix;
 	t_err	map_err;
 
-	map_str = NULL;
+	map_str = ft_substr("", 0, 0);
 	map_matrix = NULL;
 	map_err = ft_new_struct_map_error();
 	*layout = ft_new_struct_layout();
 	ft_readlayout(fd, &map_err, layout, &map_str);
-	ft_printf("%s", map_str);
+	//ft_printf("%s", map_str);
 	ft_check_error(&map_err, &map_str);
 	map_matrix = ft_split(map_str, '\n');
 	free(map_str);

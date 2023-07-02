@@ -28,7 +28,7 @@ int	ft_nbrlen(int n)
 }
 
 char	*ft_itoa(int n)
-{	
+{
 	char		*str;
 	int			len;
 	const char	*digits;
