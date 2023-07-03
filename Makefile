@@ -15,30 +15,33 @@ SRCS			=	all_of_check.c \
 					main.c \
 					utils.c \
 
-
 OBJS			= $(SRCS:.c=.o)
 CC			= cc
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror -fsanitize=address
 LIBCR			= ar rc
 RM			= rm -f
 
+MLXFLAGS = -L ./mlx -lmlx -Ilmlx -lXext -lX11
 LIBFTC			= make -C libft/
 LIBFT			= libft/libft.a
-NAME			= so_long.a
+NAME			= so_long
 
 all:			$(NAME)
 
 $(NAME):	$(OBJS)
 			$(LIBFTC)
 			$(LIBCR) $(NAME) $(OBJS) $(LIBFT)
-			$(CC) $(CFLAGS) -g -fsanitize=address -o $(NAME) $(OBJS) $(LIBFT)
+			$(MAKE) --no-print-directory -C mlx
+			$(CC) $(OBJS) $(CFLAGS) $(LIBFT) $(MLXFLAGS) -o $(NAME)
 
 clean:
 			$(RM) $(OBJS)
 			make clean -C libft
+			make clean -C mlx
 fclean:			clean
 			$(RM) $(NAME)
 			make fclean -C libft
+			make clean -C mlx
 
 re:			fclean all
 			make fclean all -C libft

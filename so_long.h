@@ -18,7 +18,22 @@
 # include <string.h>
 # include <fcntl.h>
 # include <stddef.h>
+# include "./mlx/mlx.h"
+# include "./mlx/mlx_int.h"
 # include "./libft/libft.h"
+
+typedef struct	s_data {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
+
+typedef struct	s_vars {
+	void	*mlx;
+	void	*win;
+}				t_vars;
 
 /* Struct to store and handle layout properties */
 typedef struct s_lay

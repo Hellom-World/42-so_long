@@ -75,7 +75,7 @@ char	**ft_check_map(int fd, t_lay *layout)
 	map_err = ft_new_struct_map_error();
 	*layout = ft_new_struct_layout();
 	ft_readlayout(fd, &map_err, layout, &map_str);
-	//ft_printf("%s", map_str);
+	ft_printf("%s", map_str);
 	ft_check_error(&map_err, &map_str);
 	map_matrix = ft_split(map_str, '\n');
 	free(map_str);
