@@ -22,18 +22,12 @@
 # include "./mlx/mlx_int.h"
 # include "./libft/libft.h"
 
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
 
-typedef struct	s_vars {
+typedef struct s_game
+{
 	void	*mlx;
 	void	*win;
-}				t_vars;
+}				t_game;
 
 /* Struct to store and handle layout properties */
 typedef struct s_lay
