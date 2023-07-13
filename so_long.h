@@ -25,8 +25,10 @@
 
 typedef struct s_game
 {
-	void	*mlx;
-	void	*win;
+	void	*mlx_ptr;
+	void	*win_prt;
+	void	*texture[5];
+	t_map	*map;
 }				t_game;
 
 /* Struct to store and handle layout properties */
@@ -65,5 +67,4 @@ int		ft_strrncmp(const char *s1, const char *s2, size_t n);
 int		ft_countchar(char *str, char c);
 char	*ft_strjoin_solong(char *s1, char *s2);
 void	ft_free_split(char **split);
-/*cc -g -fsanitize=address main.c utils.c all_of_check.c all_of_errors.c libft/libft.a */
 #endif

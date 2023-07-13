@@ -41,7 +41,6 @@ void	ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
 	}
 }
 
-
 int	main(int argc, char **argv)
 {
 	int		fd;
@@ -56,7 +55,7 @@ int	main(int argc, char **argv)
 	game.mlx = mlx_init();
 	if (!game.mlx)
 		return (printf("error init()"));
-	game.win = mlx_new_window (game.mlx, 300, 300, "Hellom World");
+	game.win = mlx_new_window (game.mlx, layout.n_col * 32 , layout.n_row * 32, "Hellom World");
 	if (!game.mlx)
 		return (printf("error win()"));
 	mlx_loop(game.mlx);
