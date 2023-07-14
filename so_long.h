@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heolivei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:43:38 by heolivei          #+#    #+#             */
-/*   Updated: 2023/07/02 15:42:10 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/07/14 23:30:20 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@
 # include "./mlx/mlx.h"
 # include "./mlx/mlx_int.h"
 # include "./libft/libft.h"
-
+# include <X11/X.h>
+# include <X11/keysym.h>
 
 typedef struct s_game
 {
 	void	*mlx_ptr;
-	void	*win_prt;
+	void	*win_ptr;
 	void	*texture[5];
-	t_map	*map;
+	//t_map	*map;
 }				t_game;
 
 /* Struct to store and handle layout properties */
