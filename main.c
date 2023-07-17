@@ -6,7 +6,7 @@
 /*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:13:11 by heolivei          #+#    #+#             */
-/*   Updated: 2023/07/15 00:46:45 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/07/16 19:45:28 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,30 +59,35 @@ int on_keypress(int keysym, t_game *data)
 
 void	load_assets(t_game *game)
 {
-	game->texture[0] = mlx_xpm_file_to_image(game->mlx_ptr, "assets/player.xpm", (int *)32, (int *)32);
+	game->texture[0] = mlx_xpm_file_to_image(game->mlx_ptr, "./assets/test.xpm", (int *) 5, (int *) 5);
+	ft_printf("%p", mlx_xpm_file_to_image(game->mlx_ptr, "./assets/test.xpm", (int *) 5, (int *) 5));
 }
 
 void	load_game(t_game *game, char **map)
 {
-	int	i;
-	int	j;
+	int	x;
+	int	y;
 
-	i = 0;
-	j = 0;
+	x = 0;
+	y = 0;
 
-	while (map[i])
+	while (map[x])
 	{
-		j = 0;
-		while (map[i][j])
+		y = 0;
+		while (map[x][y])
 		{
-			if (map[i][j] == 'P')
+			if (map[x][y] == 'P')
 			{
 				(void)game;
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->texture[0], i, j);
+				ft_printf("Valor de x: %d\n", x);
+				ft_printf("Valor de y: %d\n", y);
+				ft_printf("%s", game->texture[0]);
+				//mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->texture[0], y, x);
+				ft_printf("%s", game->texture[0]);
 			}
-			j++;
+			y++;
 		}
-		i++;
+		x++;
 	}
 }
 
@@ -100,6 +105,11 @@ int	main(int argc, char **argv)
 	game.mlx_ptr = mlx_init();
 	if (!game.mlx_ptr)
 		return (printf("error init()"));
+
+	load_assets(&game);
+
+	load_game(&game, map_matrix);
+
 	game.win_ptr = mlx_new_window (game.mlx_ptr, layout.n_col * 32 , layout.n_row * 32, "Hellom World");
 	if (!game.mlx_ptr)
 		return (printf("error win()"));
@@ -110,7 +120,7 @@ int	main(int argc, char **argv)
 	// Register destroy hook
 	mlx_hook(game.win_ptr, DestroyNotify, StructureNotifyMask, &on_destroy, &game);
 
-	load_game(&game, map_matrix);
+
 
 	mlx_loop(game.mlx_ptr);
 
