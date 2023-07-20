@@ -6,7 +6,7 @@
 /*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:13:11 by heolivei          #+#    #+#             */
-/*   Updated: 2023/07/19 20:10:13 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/07/20 20:34:19 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,14 @@ int on_keypress(int keysym, t_game *data)
 
 void	load_assets(t_game *game)
 {
-	int width = 32;
-	int height = 32;
+	int width = 42;
+	int height = 42;
 
 	game->texture[0] = mlx_xpm_file_to_image(game->mlx_ptr, "assets/floor.xpm", &width, &height);
 	game->texture[1] = mlx_xpm_file_to_image(game->mlx_ptr, "assets/player.xpm", &width, &height);
-	game->texture[2] = mlx_xpm_file_to_image(game->mlx_ptr, "assets/test.xpm", &width, &height);
+	game->texture[2] = mlx_xpm_file_to_image(game->mlx_ptr, "assets/wall.xpm", &width, &height);
+	game->texture[3] = mlx_xpm_file_to_image(game->mlx_ptr, "assets/colet.xpm", &width, &height);
+	game->texture[4] = mlx_xpm_file_to_image(game->mlx_ptr, "assets/door_off.xpm", &width, &height);
 
 	ft_printf("%p\n", game->texture[0]);
 }
@@ -76,22 +78,21 @@ void	load_game(t_game *game, char **map)
 
 	x = 0;
 	y = 0;
-
 	while (map[x])
 	{
 		y = 0;
 		while (map[x][y])
 		{
 			if (map[x][y] == 'P')
-			{
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->texture[1], y * 32, x * 32);
-			}
+				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->texture[1], y * 42, x * 42);
 			else if (map[x][y] == '1')
-			{
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->texture[2], y * 32, x * 32);
-			}
+				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->texture[2], y * 42, x * 42);
+			else if (map[x][y] == 'C')
+				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->texture[3], y * 42, x * 42);
+			else if (map[x][y] == 'E')
+				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->texture[4], y * 42, x * 42);
 			else
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->texture[0], y * 32, x * 32);
+				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->texture[0], y * 42, x * 42);
 			y++;
 		}
 		x++;
@@ -113,7 +114,7 @@ int	main(int argc, char **argv)
 	if (!game.mlx_ptr)
 		return (printf("error init()"));
 
-	game.win_ptr = mlx_new_window (game.mlx_ptr, layout.n_col * 32 , layout.n_row * 32, "Hellom World");
+	game.win_ptr = mlx_new_window (game.mlx_ptr, layout.n_col * 42 , layout.n_row * 42, "Hellom World");
 	if (!game.mlx_ptr)
 		return (printf("error win()"));
 
