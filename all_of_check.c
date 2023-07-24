@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   all_of_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heolivei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 19:46:24 by heolivei          #+#    #+#             */
-/*   Updated: 2023/07/02 15:41:30 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/07/23 19:41:07 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	ft_checklayout(char *line, t_err *map_err, t_lay *lay, int is_last)
 	lay->n_exit += ft_countchar(line, 'E');
 	lay->n_person += ft_countchar(line, 'P');
 	lay->n_collect += ft_countchar(line, 'C');
-	map_err->inv_n_exits = lay->n_exit < 1;
-	map_err->inv_n_persons = lay->n_person < 1;
+	map_err->inv_n_exits = lay->n_exit != 1;
+	map_err->inv_n_persons = lay->n_person != 1;
 	map_err->inv_n_collect = lay->n_collect < 1;
 	while (line && *line)
 	{
