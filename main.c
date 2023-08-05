@@ -6,7 +6,7 @@
 /*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:13:11 by heolivei          #+#    #+#             */
-/*   Updated: 2023/07/20 20:34:19 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/08/05 09:37:26 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ void	load_assets(t_game *game)
 	int width = 42;
 	int height = 42;
 
-	game->texture[0] = mlx_xpm_file_to_image(game->mlx_ptr, "assets/floor.xpm", &width, &height);
-	game->texture[1] = mlx_xpm_file_to_image(game->mlx_ptr, "assets/player.xpm", &width, &height);
-	game->texture[2] = mlx_xpm_file_to_image(game->mlx_ptr, "assets/wall.xpm", &width, &height);
-	game->texture[3] = mlx_xpm_file_to_image(game->mlx_ptr, "assets/colet.xpm", &width, &height);
-	game->texture[4] = mlx_xpm_file_to_image(game->mlx_ptr, "assets/door_off.xpm", &width, &height);
+	game->texture[0] = mlx_xpm_file_to_image(game->mlx_ptr, "textures/floor.xpm", &width, &height);
+	game->texture[1] = mlx_xpm_file_to_image(game->mlx_ptr, "textures/player.xpm", &width, &height);
+	game->texture[2] = mlx_xpm_file_to_image(game->mlx_ptr, "textures/wall.xpm", &width, &height);
+	game->texture[3] = mlx_xpm_file_to_image(game->mlx_ptr, "textures/colet.xpm", &width, &height);
+	game->texture[4] = mlx_xpm_file_to_image(game->mlx_ptr, "textures/door_off.xpm", &width, &height);
 
 	ft_printf("%p\n", game->texture[0]);
 }
