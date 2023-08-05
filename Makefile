@@ -12,6 +12,7 @@
 
 SRCS			=	all_of_check.c \
 					all_of_errors.c \
+					mlx_utils.c \
 					main.c \
 					utils.c \
 

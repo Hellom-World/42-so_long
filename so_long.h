@@ -29,7 +29,6 @@ typedef struct s_game
 	void	*mlx_ptr;
 	void	*win_ptr;
 	void	*texture[5];
-	//t_map	*map;
 }				t_game;
 
 /* Struct to store and handle layout properties */
@@ -62,10 +61,17 @@ int		ft_check_error(t_err *map_err, char **map_str);
 void	ft_checklayout(char *line, t_err *map_err, t_lay *lay, int is_last);
 int		checker_general_params(int argc, char **argv);
 char	**ft_check_map(int fd, t_lay *layout);
+void	ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str);
 
 t_lay	ft_new_struct_layout(void);
 int		ft_strrncmp(const char *s1, const char *s2, size_t n);
 int		ft_countchar(char *str, char c);
 char	*ft_strjoin_solong(char *s1, char *s2);
 void	ft_free_split(char **split);
+
+int		on_destroy(t_game *data);
+int		on_keypress(int keysym, t_game *data);
+void	load_assets(t_game *game);
+void	load_game(t_game *game, char **map);
+void	game_init(char **map_matrix, t_lay *layout);
 #endif

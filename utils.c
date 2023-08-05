@@ -96,8 +96,8 @@ int	ft_countchar(char *str, char c)
 void	ft_free_split(char **split)
 {
 	int	i;
-	i = 0;
 
+	i = 0;
 	while (split[i])
 	{
 		free(split[i]);

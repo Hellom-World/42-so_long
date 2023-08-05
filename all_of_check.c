@@ -50,15 +50,15 @@ int	checker_general_params(int argc, char **argv)
 		ft_error_filter("Only 2 Arguments -> ./so_long map.ber", NULL);
 		return (0);
 	}
+	if (ft_strrncmp(argv[1], ".ber", 4) != 0)
+	{
+		ft_error_filter("The map file needs to be .ber", NULL);
+		return (0);
+	}
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
 		ft_error_filter("Error opening the file .ber", NULL);
-		return (0);
-	}
-	if (ft_strrncmp(argv[1], ".ber", 4) != 0)
-	{
-		ft_error_filter("The map file needs to be .ber", NULL);
 		return (0);
 	}
 	return (fd);
@@ -80,4 +80,45 @@ char	**ft_check_map(int fd, t_lay *layout)
 	map_matrix = ft_split(map_str, '\n');
 	free(map_str);
 	return (map_matrix);
+}
+
+int	ft_no_line(char *last_line, t_lay *lay, t_err *map_err)
+{
+	if (!lay->n_col)
+	{
+		ft_error_filter("Map is empty", NULL);
+		return (0);
+	}
+	else
+	{
+		ft_checklayout(last_line, map_err, lay, 1);
+		free(last_line);
+		return (1);
+	}
+}
+
+void	ft_readlayout(int fd, t_err *map_err, t_lay *lay, char **map_str)
+{
+	char	*line;
+	char	*last_line;
+
+	line = NULL;
+	last_line = NULL;
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line && ft_no_line(last_line, lay, map_err))
+			break ;
+		else if (ft_strlen(line) == 1)
+		{
+			ft_error_filter("invalid map", NULL);
+			free(last_line);
+			break ;
+		}
+		free(last_line);
+		ft_checklayout(line, map_err, lay, !lay->n_row);
+		last_line = ft_substr(line, 0, ft_strlen(line));
+		*map_str = ft_strjoin_solong(*map_str, line);
+		lay->n_row++;
+	}
 }
