@@ -6,7 +6,7 @@
 /*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:43:38 by heolivei          #+#    #+#             */
-/*   Updated: 2023/07/14 23:30:20 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:52:18 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@
 # include "./libft/libft.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
+
+typedef struct s_point
+{
+	int	x;
+	int y;
+}	t_point;
 
 typedef struct s_game
 {

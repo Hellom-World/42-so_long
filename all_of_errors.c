@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   all_of_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heolivei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 19:47:04 by heolivei          #+#    #+#             */
-/*   Updated: 2023/06/30 19:53:03 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/08/07 19:35:20 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,3 +50,21 @@ int	ft_check_error(t_err *map_err, char **map_str)
 		ft_error_filter("Invalid numbers of collectibles!", map_str);
 	return (0);
 }
+
+/*fill(char **tab, t_point size, t_point cur, char to_fill, int count)
+{
+	if(cur.y < 0 || cur.y >= size.y || cur.x < 0 || cur.x >= size.x || tab[cur.y][cur.x] == '1')
+		return;
+	else if(tab[cur.y][cur.x] == to_fill)
+		count++;
+	fill(tab, size, (t_point){cur.x - 1, cur.y}, to_fill);
+	fill(tab, size, (t_point){cur.x + 1, cur.y}, to_fill);
+	fill(tab, size, (t_point){cur.x, cur.y - 1}, to_fill);
+	fill(tab, size, (t_point){cur.x, cur.y + 1}, to_fill);
+}
+
+void	flood_fill(char **tab, t_point size, t_point begin, char to_fill)
+{
+	int	count = 0;
+	fill(tab, size, begin, to_fill, count);
+}*/
