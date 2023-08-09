@@ -62,33 +62,39 @@ char	**ft_copy_matrix(char **map_matrix, t_point size)
 	tmp_map[i] = NULL;
 	return (tmp_map);
 }
-void fill(char **tab, t_point size, t_point cur, int count_n_collect, int count_n_exit)
+void fill(char **tab, t_point size, t_point cur, t_point *n_exit_and_collect)
 {
     if (tab[cur.y][cur.x] == '1')
         return;
     else if (tab[cur.y][cur.x] == 'C')
-        count_n_collect++;
+        n_exit_and_collect->x++;
 	else if (tab[cur.y][cur.x] == 'E')
-        count_n_exit++;
+        n_exit_and_collect->y++;
     tab[cur.y][cur.x] = '1';
-	fill(tab, size, (t_point){cur.x - 1, cur.y}, count_n_collect, count_n_exit);
-	fill(tab, size, (t_point){cur.x + 1, cur.y}, count_n_collect, count_n_exit);
-    fill(tab, size, (t_point){cur.x, cur.y - 1}, count_n_collect, count_n_exit);
-    fill(tab, size, (t_point){cur.x, cur.y + 1}, count_n_collect, count_n_exit);
+	fill(tab, size, (t_point){cur.x - 1, cur.y}, n_exit_and_collect);
+	fill(tab, size, (t_point){cur.x + 1, cur.y}, n_exit_and_collect);
+    fill(tab, size, (t_point){cur.x, cur.y - 1}, n_exit_and_collect);
+    fill(tab, size, (t_point){cur.x, cur.y + 1}, n_exit_and_collect);
 }
 void  flood_fill(char **tab, t_point size, t_point begin, t_lay lay)
 {
-	static int count_n_collect;
-	static int count_n_exit;
+	t_point	n_exit_and_collect;
 	int	x = -1;
-    fill(tab, size, begin, count_n_collect, count_n_exit);
+
+	n_exit_and_collect.x = 0;
+	n_exit_and_collect.y = 0;
+
+	x = -1;
+    fill(tab, size, begin, &n_exit_and_collect);
 	while (tab[++x])
 		printf("%s\n", tab[x]);
+
 	printf("struct n_collet %d ", lay.n_collect );
-	printf("count_n_collet %d\n", count_n_collect );
+	printf("count_n_collet %d\n", n_exit_and_collect.x );
 	printf("struct n_exit %d ", lay.n_exit );
-	printf("count_n_collet %d\n", count_n_exit );
-	if(count_n_collect != lay.n_collect || count_n_exit != lay.n_exit)
+	printf("count_n_exit %d\n", n_exit_and_collect.y );
+
+	if(n_exit_and_collect.x != lay.n_collect || n_exit_and_collect.y != lay.n_exit)
 		ft_error_filter("Invalid map", 0);
 }
 
