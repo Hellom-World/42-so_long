@@ -34,7 +34,10 @@ typedef struct s_game
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	char	**map_matrix;
 	void	*texture[5];
+	struct s_point	p_position;
+	struct s_lay	*layout;
 }				t_game;
 
 /* Struct to store and handle layout properties */
@@ -78,6 +81,13 @@ void	ft_free_split(char **split);
 int		on_destroy(t_game *data);
 int		on_keypress(int keysym, t_game *data);
 void	load_assets(t_game *game);
-void	load_game(t_game *game, char **map);
+int		load_game(t_game *game);
 void	game_init(char **map_matrix, t_lay *layout);
+
+t_point	ft_player_position(char **map);
+char	**ft_copy_matrix(char **map_matrix, t_point size);
+void	fill(char **tab, t_point size, t_point cur, t_point *n_exit_and_collect);
+void 	flood_fill(char **tab, t_point size, t_point begin, t_lay lay);
+void	ft_check_path(char **tmp_map, t_lay *lay);
+
 #endif

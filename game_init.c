@@ -21,10 +21,82 @@ int	on_destroy(t_game *data)
 	return (0);
 }
 
-int	on_keypress(int keysym, t_game *data)
+int	cg_map(t_game *game, int i, char c, int ok)
 {
-	(void)data;
-	printf("Pressed key: %d\n", keysym);
+	if (ok)
+	{
+		game->map_matrix[game->p_position.y][game->p_position.x] = '0';
+		if (c == 'y')
+			game->p_position.y = game->p_position.y + i;
+		else
+			game->p_position.x = game->p_position.x + i;
+		game->map_matrix[game->p_position.y][game->p_position.x] = 'E';
+		return (1);
+	}
+	else
+	{
+		if (game->map_matrix[game->p_position.y][game->p_position.x] == 'E')
+			game->map_matrix[game->p_position.y][game->p_position.x] = 'E';
+		else
+			game->map_matrix[game->p_position.y][game->p_position.x] = '0';
+
+		if (c == 'y')
+			game->p_position.y = game->p_position.y + i;
+		else
+			game->p_position.x = game->p_position.x + i;
+		game->map_matrix[game->p_position.y][game->p_position.x] = 'P';
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_cond(t_game *game, int i, char c)
+{
+	char floor;
+
+	floor = '\0';
+	if(c == 'y')
+	{
+		floor = game->map_matrix[game->p_position.y + i][game->p_position.x];
+		if(floor != '1')
+		{
+			if(floor == 'E')
+				return(2);
+			return(1);
+		}
+	}
+	else if(c == 'x')
+	{
+		floor = game->map_matrix[game->p_position.y][game->p_position.x + i];
+		if(floor != '1')
+		{
+			if(floor == 'E')
+				return(2);
+			return(1);
+		}
+	}
+	return(0);
+}
+int	on_keypress(int keysym, t_game *game)
+{
+	static int	count;
+	if((keysym == 'w' || keysym == 65362) && ft_cond(game, -1, 'y') == 1)
+		count += cg_map(game, -1, 'y', 0);
+	else if((keysym == 'a' || keysym == 65361) && ft_cond(game, -1, 'x') == 1)
+		count += cg_map(game, -1, 'x', 0);
+	else if((keysym == 's' || keysym == 65364) && ft_cond(game, 1, 'y') == 1)
+		count += cg_map(game, 1, 'y', 0);
+	else if((keysym == 'd' || keysym == 65363) && ft_cond(game, 1, 'x') == 1)
+		count += cg_map(game, 1, 'x', 0);
+	else if((keysym == 'w' || keysym == 65362) && ft_cond(game, -1, 'y') == 2)
+		count += cg_map(game, -1, 'y', 1);
+	else if((keysym == 'a' || keysym == 65361) && ft_cond(game, -1, 'x') == 2)
+		count += cg_map(game, -1, 'x', 1);
+	else if((keysym == 's' || keysym == 65364) && ft_cond(game, 1, 'y') == 2)
+		count += cg_map(game, 1, 'y', 1);
+	else if((keysym == 'd' || keysym == 65363) && ft_cond(game, 1, 'x') == 2)
+		count += cg_map(game, 1, 'x', 1);
+	ft_printf("Moves: %d\n", count);
 	return (0);
 }
 
@@ -48,33 +120,34 @@ void	load_assets(t_game *game)
 	ft_printf("%p\n", game->texture[0]);
 }
 
-void	load_game(t_game *game, char **map)
+int	load_game(t_game *game)
 {
 	int	x;
 	int	y;
 
 	x = -1;
-	while (map[++x])
+	while (game->map_matrix[++x])
 	{
 		y = -1;
-		while (map[x][++y])
+		while (game->map_matrix[x][++y])
 		{
 			mlx_put_image_to_window(game->mlx_ptr, game->win_ptr,
 				game->texture[0], y * 42, x * 42);
-			if (map[x][y] == 'P')
+			if (game->map_matrix[x][y] == 'P')
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr,
 					game->texture[1], y * 42, x * 42);
-			else if (map[x][y] == '1')
+			else if (game->map_matrix[x][y] == '1')
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr,
 					game->texture[2], y * 42, x * 42);
-			else if (map[x][y] == 'C')
+			else if (game->map_matrix[x][y] == 'C')
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr,
 					game->texture[3], y * 42, x * 42);
-			else if (map[x][y] == 'E')
+			else if (game->map_matrix[x][y] == 'E')
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr,
 					game->texture[4], y * 42, x * 42);
 		}
 	}
+	return(0);
 }
 
 void	game_init(char **map_matrix, t_lay *layout)
@@ -83,16 +156,23 @@ void	game_init(char **map_matrix, t_lay *layout)
 
 	game.mlx_ptr = mlx_init();
 	if (!game.mlx_ptr)
-		printf("error init()");
+		ft_printf("error init()");
 	game.win_ptr = mlx_new_window (game.mlx_ptr, layout->n_col * 42,
 			layout->n_row * 42, "Sobradinho");
 	if (!game.mlx_ptr)
-		printf("error win()");
+		ft_printf("error win()");
+	game.map_matrix = map_matrix;
+	game.p_position = ft_player_position(game.map_matrix);
 	mlx_hook(game.win_ptr, KeyRelease, KeyReleaseMask, &on_keypress, &game);
 	mlx_hook(game.win_ptr, DestroyNotify, StructureNotifyMask,
 		&on_destroy, &game);
 	load_assets(&game);
-	load_game(&game, map_matrix);
+	load_game(&game);
+	mlx_loop_hook(game.mlx_ptr, load_game, &game);
 	mlx_loop(game.mlx_ptr);
 	ft_free_split(map_matrix);
 }
+
+// loop_hook
+// struct root
+// reestruturar
