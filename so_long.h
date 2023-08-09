@@ -6,7 +6,7 @@
 /*   By: heolivei <heolivei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:43:38 by heolivei          #+#    #+#             */
-/*   Updated: 2023/08/07 18:52:18 by heolivei         ###   ########.fr       */
+/*   Updated: 2023/08/09 20:24:35 by heolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ typedef struct s_game
 	void	*mlx_ptr;
 	void	*win_ptr;
 	char	**map_matrix;
-	void	*texture[5];
+	void	*texture[7];
+	int		n_colected;
 	struct s_point	p_position;
+	struct s_point	e_position;
 	struct s_lay	*layout;
 }				t_game;
 
@@ -84,7 +86,7 @@ void	load_assets(t_game *game);
 int		load_game(t_game *game);
 void	game_init(char **map_matrix, t_lay *layout);
 
-t_point	ft_player_position(char **map);
+t_point	ft_position(char **map, char c);
 char	**ft_copy_matrix(char **map_matrix, t_point size);
 void	fill(char **tab, t_point size, t_point cur, t_point *n_exit_and_collect);
 void 	flood_fill(char **tab, t_point size, t_point begin, t_lay lay);

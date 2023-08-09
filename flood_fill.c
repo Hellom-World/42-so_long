@@ -1,7 +1,7 @@
 #include "./so_long.h"
 
 
-t_point	ft_player_position(char **map)
+t_point	ft_position(char **map, char c)
 {
 	int	y;
 	int	x;
@@ -13,7 +13,7 @@ t_point	ft_player_position(char **map)
 		x = 0;
 		while(map[y][x])
 		{
-			if(map[y][x] == 'P')
+			if(map[y][x] == c)
 				return ((t_point){x, y});
 			x++;
 		}
@@ -81,14 +81,14 @@ void  flood_fill(char **tab, t_point size, t_point begin, t_lay lay)
 
 void	ft_check_path(char **tmp_map, t_lay *lay)
 {
-	t_point	begin;
+	t_point	p_position;
 	t_point size;
 	int	x;
 
 	x = -1;
-	begin = ft_player_position(tmp_map);
+	p_position = ft_position(tmp_map, 'P');
 	size = (t_point){lay->n_col, lay->n_row};
-	flood_fill(tmp_map, size, begin, *lay);
+	flood_fill(tmp_map, size, p_position, *lay);
 
 	while (tmp_map[++x])
 		printf("%s\n", tmp_map[x]);
