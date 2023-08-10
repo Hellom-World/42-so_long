@@ -50,4 +50,3 @@ int	ft_check_error(t_err *map_err, char **map_str)
 		ft_error_filter("Invalid numbers of collectibles!", map_str);
 	return (0);
 }
-

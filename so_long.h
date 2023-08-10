@@ -13,7 +13,6 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include <stdio.h>
 # include <unistd.h>
 # include <string.h>
 # include <fcntl.h>
@@ -27,18 +26,18 @@
 typedef struct s_point
 {
 	int	x;
-	int y;
+	int	y;
 }	t_point;
 
 typedef struct s_game
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	char	**map_matrix;
-	void	*texture[7];
-	int		n_colected;
-	struct s_point	p_position;
-	struct s_point	e_position;
+	void			*mlx_ptr;
+	void			*win_ptr;
+	char			**map_matrix;
+	void			*texture[7];
+	int				n_colected;
+	struct s_point	p_pos;
+	struct s_point	e_pos;
 	struct s_lay	*layout;
 }				t_game;
 
@@ -88,8 +87,15 @@ void	game_init(char **map_matrix, t_lay *layout);
 
 t_point	ft_position(char **map, char c);
 char	**ft_copy_matrix(char **map_matrix, t_point size);
-void	fill(char **tab, t_point size, t_point cur, t_point *n_exit_and_collect);
-void 	flood_fill(char **tab, t_point size, t_point begin, t_lay lay);
+void	fill(char **tab, t_point size, t_point cur,
+			t_point *n_exit_and_collect);
+void	flood_fill(char **tab, t_point size, t_point begin, t_lay lay);
 void	ft_check_path(char **tmp_map, t_lay *lay);
 
+void	put_img(t_game *game, int x, int y, int i);
+int		cg_map(t_game *game, int i, char c, int ok);
+int		ft_cond(t_game *game, int i, char c);
+int		press_esc(int keysym, t_game *game);
+
+/*find . -maxdepth 1 -type f -exec norminette {} \;*/
 #endif

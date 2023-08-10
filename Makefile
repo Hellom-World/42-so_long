@@ -13,6 +13,7 @@
 SRCS			=	all_of_check.c \
 					all_of_errors.c \
 					game_init.c \
+					game_utils.c \
 					flood_fill.c \
 					main.c \
 					utils.c \
@@ -48,3 +49,4 @@ fclean:			clean
 re:			fclean all
 			make fclean all -C libft
 
+.SILENT:
